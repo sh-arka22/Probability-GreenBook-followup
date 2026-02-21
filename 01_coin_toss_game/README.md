@@ -69,11 +69,11 @@ This makes intuitive sense: A's extra coin is either heads or tails with equal p
 
 #### Solution
 
-Split A's coins into two groups: the first $n$ coins $(A_{1 \ldots n})$ and the remaining $k$ coins $(A_{\mathrm{extra},1}, \ldots, A_{\mathrm{extra},k})$.
+Split A's coins into two groups: the first $n$ coins $(A_{1 \ldots n})$ and the remaining $k$ extra coins.
 
-Let $X$ = heads from $A_{1 \ldots n}$ and $Y$ = heads from $B_{1 \ldots n}$. By symmetry, $X$ and $Y$ are identically distributed (both $\mathrm{Bin}(n, 0.5)$).
+Let $X$ = heads from $A_{1 \ldots n}$ and $Y$ = heads from $B_{1 \ldots n}$. By symmetry, $X$ and $Y$ are identically distributed (both Binomial$(n, 0.5)$).
 
-Let $Z$ = heads from A's extra $k$ coins, so $Z \sim \mathrm{Bin}(k, 0.5)$.
+Let $Z$ = heads from A's extra $k$ coins, so $Z \sim$ Binomial$(k, 0.5)$.
 
 **A wins iff $X + Z > Y$, i.e. $Z > Y - X$.**
 
@@ -81,10 +81,10 @@ Let $D = X - Y$. By symmetry, $D$ is symmetric about 0, meaning $P(D = d) = P(D 
 
 $$P(A > B) = P(Z + D > 0) = \sum_{d} P(D = d) \cdot P(Z > -d)$$
 
-For a closed-form result, note that the total heads for A follow $\mathrm{Bin}(n+k, 0.5)$ and for B follow $\mathrm{Bin}(n, 0.5)$.
+For a closed-form result, note that the total heads for A follow Binomial$(n+k, 0.5)$ and for B follow Binomial$(n, 0.5)$.
 
 **Special cases:**
-- $k = 0$: $P(A > B) = \frac{1 - P(\mathrm{tie})}{2} < \frac{1}{2}$ (by symmetry, less than half since ties are possible)
+- $k = 0$: $P(A > B) < \frac{1}{2}$ (by symmetry, less than half since ties are possible)
 - $k = 1$: $P(A > B) = \frac{1}{2}$ (the original problem)
 - $k \to \infty$: $P(A > B) \to 1$ (A overwhelms B)
 
@@ -98,7 +98,7 @@ This doesn't simplify to a clean closed form for arbitrary $k$, but can be compu
 
 ### Follow-Up 2: Biased Coins
 
-> Suppose both players use biased coins with $P(\mathrm{Heads}) = p \neq 0.5$. Does the probability that A wins remain $\frac{1}{2}$?
+> Suppose both players use biased coins with $P(H) = p \neq 0.5$. Does the probability that A wins remain $\frac{1}{2}$?
 
 #### Solution
 
@@ -110,9 +110,9 @@ The proof follows identically:
 
 $$P(A_{1 \ldots n} > B) = P(B > A_{1 \ldots n})$$
 
-This symmetry holds for **any** $p \in (0, 1)$, since both sets of $n$ coins are i.i.d. $\mathrm{Bernoulli}(p)$.
+This symmetry holds for **any** $p \in (0, 1)$, since both sets of $n$ coins are i.i.d. Bernoulli$(p)$.
 
-**Step 2:** Let $p_{\mathrm{win}} = P(A_{1 \ldots n} > B)$ and $t = P(\mathrm{tie})$.
+**Step 2:** Let $p_w = P(A_{1 \ldots n} > B)$ and $t = P(\text{tie})$.
 
 The extra coin is heads with probability $p$, tails with probability $1 - p$.
 
@@ -126,27 +126,27 @@ Let $D = A_{1 \ldots n} - B$ be the head-count difference. By symmetry of using 
 
 $$P(D = d) = P(D = -d) \quad \text{for all } d$$
 
-A wins iff $D + A_{\mathrm{extra}} > 0$ where $A_{\mathrm{extra}} \sim \mathrm{Bernoulli}(p)$.
+A wins iff $D + A_{\text{extra}} > 0$ where $A_{\text{extra}} \sim$ Bernoulli$(p)$.
 
 $$P(A > B) = P(D > 0) + p \cdot P(D = 0) + p \cdot P(D = -1) \cdot 0$$
 
-Wait, let me redo this properly. A's total heads = ($A_{1 \ldots n}$ heads) + $A_{\mathrm{extra}}$.
-B's total heads $= B$ heads.
+Wait, let me redo this properly. A's total heads = ($A_{1 \ldots n}$ heads) + $A_{\text{extra}}$.
+B's total heads = $B$ heads.
 
-A wins iff $D + A_{\mathrm{extra}} > 0$ where $D = A_{1 \ldots n} - B$.
+A wins iff $D + A_{extra} > 0$ where $D = A_{1 \ldots n} - B$.
 
-- If $D \geq 1$: A wins regardless → probability $p_{\mathrm{win}}$
-- If $D = 0$: A wins iff $A_{\mathrm{extra}} = 1$ → contributes $t \cdot p$
-- If $D = -1$: A wins iff $A_{\mathrm{extra}} = 1$, giving $D + 1 = 0$ → **tie, not win**
+- If $D \geq 1$: A wins regardless → probability $p_w$
+- If $D = 0$: A wins iff $A_{extra} = 1$ → contributes $t \cdot p$
+- If $D = -1$: A wins iff $A_{extra} = 1$, giving $D + 1 = 0$ → **tie, not win**
 - If $D \leq -1$: A cannot win (extra coin adds at most 1)
 
 So:
 
 $$P(A > B) = p_{\text{win}} + p \cdot t$$
 
-Now, $p_{\mathrm{win}} + p_{\mathrm{lose}} + t = 1$ and $p_{\mathrm{win}} = p_{\mathrm{lose}}$ by symmetry.
+Now, $p_w + p_l + t = 1$ and $p_w = p_l$ by symmetry.
 
-So $t = 1 - 2p_{\mathrm{win}}$.
+So $t = 1 - 2p_w$.
 
 $$P(A > B) = p_{\text{win}} + p(1 - 2p_{\text{win}}) = p_{\text{win}}(1 - 2p) + p$$
 
@@ -156,11 +156,11 @@ For biased coins ($p \neq 0.5$):
 
 $$\boxed{P(A > B) = p_{\text{win}}(1 - 2p) + p}$$
 
-where $p_{\mathrm{win}} = P(A_{1 \ldots n} > B)$ depends on $n$ and $p$.
+where $p_w = P(A_{1 \ldots n} > B)$ depends on $n$ and $p$.
 
 **Example:** For $n = 1$, $p = 0.7$:
-- $p_{\mathrm{win}} = P(A_1 = H, B = T) = 0.7 \times 0.3 = 0.21$
-- $t = P(\mathrm{same}) = p^2 + (1-p)^2 = 0.49 + 0.09 = 0.58$
+- $p_w = P(A_1 = H, B = T) = 0.7 \times 0.3 = 0.21$
+- $t = p^2 + (1-p)^2 = 0.49 + 0.09 = 0.58$
 - $P(A > B) = 0.21 + 0.7 \times 0.58 = 0.21 + 0.406 = 0.616 \neq 0.5$
 
 **So no, the answer does NOT remain $\frac{1}{2}$ for biased coins.** The key is that the extra coin's head probability $p$ no longer matches the "half" needed to perfectly balance the symmetry.
@@ -173,7 +173,7 @@ where $p_{\mathrm{win}} = P(A_{1 \ldots n} > B)$ depends on $n$ and $p$.
 
 #### Solution
 
-Let $H_A \sim \mathrm{Bin}(n+1, \frac{1}{2})$ and $H_B \sim \mathrm{Bin}(n, \frac{1}{2})$.
+Let $H_A \sim$ Binomial$(n+1, \frac{1}{2})$ and $H_B \sim$ Binomial$(n, \frac{1}{2})$.
 
 By linearity of expectation:
 
@@ -244,7 +244,7 @@ Compare to $E[H_A] = 1$. So conditioning on winning increases the expected heads
 
 **Each round:** A flips $(n+1)$ coins, B flips $n$ coins → total of $(2n + 1)$ flips per round.
 
-**Probability A wins (terminates) in each round:** $P(\mathrm{stop}) = P(A > B) = \frac{1}{2}$.
+**Probability A wins (terminates) in each round:** $P(A > B) = \frac{1}{2}$.
 
 **The number of rounds $R$ is geometric** with success probability $\frac{1}{2}$:
 
