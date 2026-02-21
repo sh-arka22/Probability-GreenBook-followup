@@ -16,26 +16,26 @@ We are testing your ability to **spot symmetry** rather than blindly applying co
 
 Split A's $(n+1)$ coins into two groups:
 
-- **First $n$ coins** — call these $A_{1..n}$
+- **First $n$ coins** — call these $A_{1 \ldots n}$
 - **The $(n+1)^{th}$ coin** — call this $A_{extra}$
 
-**Step 2: Compare $A_{1..n}$ vs $B_{1..n}$.**
+**Step 2: Compare $A_{1 \ldots n}$ vs $B_{1 \ldots n}$.**
 
 Both sets have $n$ fair coins. There are exactly three mutually exclusive and exhaustive outcomes:
 
 | Outcome | Notation |
 |---|---|
-| A's first $n$ coins show more heads | $A_{1..n} > B$ |
-| B's $n$ coins show more heads | $B > A_{1..n}$ |
-| They tie | $A_{1..n} = B$ |
+| A's first $n$ coins show more heads | $A_{1 \ldots n} > B$ |
+| B's $n$ coins show more heads | $B > A_{1 \ldots n}$ |
+| They tie | $A_{1 \ldots n} = B$ |
 
 By **symmetry** (identical coin counts, all fair):
 
-$$P(A_{1..n} > B) = P(B > A_{1..n})$$
+$$P(A_{1 \ldots n} > B) = P(B > A_{1 \ldots n})$$
 
 Let:
 
-$$p = P(A_{1..n} > B), \quad t = P(A_{1..n} = B)$$
+$$p = P(A_{1 \ldots n} > B), \quad t = P(A_{1 \ldots n} = B)$$
 
 so $2p + t = 1$, i.e. $t = 1 - 2p$.
 
@@ -43,9 +43,9 @@ so $2p + t = 1$, i.e. $t = 1 - 2p$.
 
 | Scenario | Extra coin needed? | A wins? |
 |---|---|---|
-| $A_{1..n} > B$ | No | ✅ Always (extra coin is just gravy) |
-| $B > A_{1..n}$ | Extra coin can gain at most 1 head. But B is ahead by ≥ 1, so at best we tie — **not** strictly more | ❌ Never |
-| $A_{1..n} = B$ | A wins **iff** $A_{extra} = H$ | ✅ With probability $\frac{1}{2}$ |
+| $A_{1 \ldots n} > B$ | No | ✅ Always (extra coin is just gravy) |
+| $B > A_{1 \ldots n}$ | Extra coin can gain at most 1 head. But B is ahead by ≥ 1, so at best we tie — **not** strictly more | ❌ Never |
+| $A_{1 \ldots n} = B$ | A wins **iff** $A_{extra} = H$ | ✅ With probability $\frac{1}{2}$ |
 
 **Step 4: Combine.**
 
@@ -69,11 +69,11 @@ This makes intuitive sense: A's extra coin is either heads or tails with equal p
 
 #### Solution
 
-Split A's coins into two groups: the first $n$ coins $(A_{1..n})$ and the remaining $k$ coins $(A_{extra_1}, \ldots, A_{extra_k})$.
+Split A's coins into two groups: the first $n$ coins ($A_{1 \ldots n}$) and the remaining $k$ coins ($A_{\text{extra}\_1}, \ldots, A_{\text{extra}\_k}$).
 
-Let $X = $ heads from $A_{1..n}$ and $Y = $ heads from $B_{1..n}$. By symmetry, $X$ and $Y$ are identically distributed (both $\text{Binomial}(n, 0.5)$).
+Let $X$ = heads from $A_{1 \ldots n}$ and $Y$ = heads from $B_{1 \ldots n}$. By symmetry, $X$ and $Y$ are identically distributed (both $\text{Binomial}(n, 0.5)$).
 
-Let $Z = $ heads from A's extra $k$ coins, so $Z \sim \text{Binomial}(k, 0.5)$.
+Let $Z$ = heads from A's extra $k$ coins, so $Z \sim \text{Binomial}(k, 0.5)$.
 
 **A wins iff $X + Z > Y$, i.e. $Z > Y - X$.**
 
@@ -108,36 +108,36 @@ The proof follows identically:
 
 **Step 1:** Compare A's first $n$ coins to B's $n$ coins. Both use the same biased coins, so:
 
-$$P(A_{1..n} > B) = P(B > A_{1..n})$$
+$$P(A_{1 \ldots n} > B) = P(B > A_{1 \ldots n})$$
 
 This symmetry holds for **any** $p \in (0, 1)$, since both sets of $n$ coins are i.i.d. $\text{Bernoulli}(p)$.
 
-**Step 2:** Let $p_{\text{win}} = P(A_{1..n} > B)$ and $t = P(\text{tie})$.
+**Step 2:** Let $p_{\text{win}} = P(A_{1 \ldots n} > B)$ and $t = P(\text{tie})$.
 
 The extra coin is heads with probability $p$, tails with probability $1 - p$.
 
-When $B > A_{1..n}$: B leads by at least 1. The extra coin can gain at most 1 head.
+When $B > A_{1 \ldots n}$: B leads by at least 1. The extra coin can gain at most 1 head.
 - If B leads by exactly 1 and the extra coin is H → **tie** (not a strict win for A)
 - If B leads by ≥ 2 → A still loses
 
 **Wait** — this is where the biased case differs subtly. Let's be more careful.
 
-Let $D = A_{1..n} - B$ be the head-count difference. By symmetry of using the same coins:
+Let $D = A_{1 \ldots n} - B$ be the head-count difference. By symmetry of using the same coins:
 
 $$P(D = d) = P(D = -d) \quad \text{for all } d$$
 
-A wins iff $D + A_{extra} > 0$ where $A_{extra} \sim \text{Bernoulli}(p)$.
+A wins iff $D + A_{\text{extra}} > 0$ where $A_{\text{extra}} \sim \text{Bernoulli}(p)$.
 
 $$P(A > B) = P(D > 0) + p \cdot P(D = 0) + p \cdot P(D = -1) \cdot 0$$
 
-Wait, let me redo this properly. A's total heads = $(A_{1..n} \text{ heads}) + A_{extra}$.
-B's total heads = $B$ heads.
+Wait, let me redo this properly. A's total heads $= (A_{1 \ldots n} \text{ heads}) + A_{\text{extra}}$.
+B's total heads $= B$ heads.
 
-A wins iff $D + A_{extra} > 0$ where $D = A_{1..n} - B$.
+A wins iff $D + A_{\text{extra}} > 0$ where $D = A_{1 \ldots n} - B$.
 
 - If $D \geq 1$: A wins regardless → probability $p_{\text{win}}$
-- If $D = 0$: A wins iff $A_{extra} = 1$ → contributes $t \cdot p$
-- If $D = -1$: A wins iff $A_{extra} = 1$, giving $D + 1 = 0$ → **tie, not win**
+- If $D = 0$: A wins iff $A_{\text{extra}} = 1$ → contributes $t \cdot p$
+- If $D = -1$: A wins iff $A_{\text{extra}} = 1$, giving $D + 1 = 0$ → **tie, not win**
 - If $D \leq -1$: A cannot win (extra coin adds at most 1)
 
 So:
