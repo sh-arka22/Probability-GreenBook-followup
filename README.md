@@ -9,3 +9,4 @@ A collection of classic probability interview questions with thorough solutions 
 | # | Problem | Key Concept |
 |---|---|---|
 | 1 | [The Coin Toss Game](01_coin_toss_game/README.md) | Symmetry, Binomial Distribution, Geometric Stopping Times |
+| 2 | [The Card Game (High Card Wins)](02_card_game_high_card_wins/README.md) | Symmetry, Complementary Events, Conditional Strategy |
