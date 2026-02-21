@@ -71,9 +71,9 @@ This makes intuitive sense: A's extra coin is either heads or tails with equal p
 
 Split A's coins into two groups: the first $n$ coins $(A_{1 \ldots n})$ and the remaining $k$ coins $(A_{\mathrm{extra},1}, \ldots, A_{\mathrm{extra},k})$.
 
-Let $X$ = heads from $A_{1 \ldots n}$ and $Y$ = heads from $B_{1 \ldots n}$. By symmetry, $X$ and $Y$ are identically distributed (both $\mathrm{Bin}(n,\ 0.5)$).
+Let $X$ = heads from $A_{1 \ldots n}$ and $Y$ = heads from $B_{1 \ldots n}$. By symmetry, $X$ and $Y$ are identically distributed (both $\mathrm{Bin}(n, 0.5)$).
 
-Let $Z$ = heads from A's extra $k$ coins, so $Z \sim \mathrm{Bin}(k,\ 0.5)$.
+Let $Z$ = heads from A's extra $k$ coins, so $Z \sim \mathrm{Bin}(k, 0.5)$.
 
 **A wins iff $X + Z > Y$, i.e. $Z > Y - X$.**
 
@@ -81,7 +81,7 @@ Let $D = X - Y$. By symmetry, $D$ is symmetric about 0, meaning $P(D = d) = P(D 
 
 $$P(A > B) = P(Z + D > 0) = \sum_{d} P(D = d) \cdot P(Z > -d)$$
 
-For a closed-form result, note that the total heads for A follow $\mathrm{Bin}(n+k,\ 0.5)$ and for B follow $\mathrm{Bin}(n,\ 0.5)$.
+For a closed-form result, note that the total heads for A follow $\mathrm{Bin}(n+k, 0.5)$ and for B follow $\mathrm{Bin}(n, 0.5)$.
 
 **Special cases:**
 - $k = 0$: $P(A > B) = \frac{1 - P(\mathrm{tie})}{2} < \frac{1}{2}$ (by symmetry, less than half since ties are possible)
@@ -130,7 +130,7 @@ A wins iff $D + A_{\mathrm{extra}} > 0$ where $A_{\mathrm{extra}} \sim \mathrm{B
 
 $$P(A > B) = P(D > 0) + p \cdot P(D = 0) + p \cdot P(D = -1) \cdot 0$$
 
-Wait, let me redo this properly. A's total heads $= (A_{1 \ldots n} \mathrm{\ heads}) + A_{\mathrm{extra}}$.
+Wait, let me redo this properly. A's total heads = ($A_{1 \ldots n}$ heads) + $A_{\mathrm{extra}}$.
 B's total heads $= B$ heads.
 
 A wins iff $D + A_{\mathrm{extra}} > 0$ where $D = A_{1 \ldots n} - B$.
@@ -173,7 +173,7 @@ where $p_{\mathrm{win}} = P(A_{1 \ldots n} > B)$ depends on $n$ and $p$.
 
 #### Solution
 
-Let $H_A \sim \mathrm{Bin}(n+1,\ \frac{1}{2})$ and $H_B \sim \mathrm{Bin}(n,\ \frac{1}{2})$.
+Let $H_A \sim \mathrm{Bin}(n+1, \frac{1}{2})$ and $H_B \sim \mathrm{Bin}(n, \frac{1}{2})$.
 
 By linearity of expectation:
 
@@ -226,13 +226,13 @@ $$= 2 \sum_{i=1}^{n+1} \sum_{j=0}^{i-1} i \binom{n+1}{i} \binom{n}{j} \left(\fra
 | 2 | 0 | $\frac{1}{8}$ | Yes |
 | 2 | 1 | $\frac{1}{8}$ | Yes |
 
-$P(A \ \mathrm{wins}) = \frac{2 + 1 + 1}{8} = \frac{4}{8} = \frac{1}{2}$ ✓
+$P(A \textrm{ wins}) = \frac{2 + 1 + 1}{8} = \frac{4}{8} = \frac{1}{2}$ ✓
 
 $$E[H_A \mid A \text{ wins}] = \frac{1 \cdot \frac{2}{8} + 2 \cdot \frac{1}{8} + 2 \cdot \frac{1}{8}}{\frac{1}{2}} = \frac{\frac{6}{8}}{\frac{1}{2}} = \frac{3}{2}$$
 
 Compare to $E[H_A] = 1$. So conditioning on winning increases the expected heads from 1 to $\frac{3}{2}$.
 
-**General pattern:** $E[H_A \mid A \ \mathrm{wins}] = \frac{n+1}{2} + \delta(n)$ where $\delta(n) > 0$ represents the boost from conditioning on winning.
+**General pattern:** $E[H_A \mid A \textrm{ wins}] = \frac{n+1}{2} + \delta(n)$ where $\delta(n) > 0$ represents the boost from conditioning on winning.
 
 ---
 
