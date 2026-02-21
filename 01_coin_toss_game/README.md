@@ -16,42 +16,42 @@ We are testing your ability to **spot symmetry** rather than blindly applying co
 
 Split A's $(n+1)$ coins into two groups:
 
-- **First $n$ coins** — call these $A_{1 \ldots n}$
-- **The $(n+1)^{th}$ coin** — call this $A_{extra}$
+- **First** $n$ **coins** — call the number of heads from these $A_n$
+- **The** $(n+1)^{th}$ **coin** — call this $A_e$
 
-**Step 2: Compare $A_{1 \ldots n}$ vs $B_{1 \ldots n}$.**
+**Step 2: Compare** $A_n$ **vs** $B_n$ .
 
 Both sets have $n$ fair coins. There are exactly three mutually exclusive and exhaustive outcomes:
 
 | Outcome | Notation |
 |---|---|
-| A's first $n$ coins show more heads | $A_{1 \ldots n} > B$ |
-| B's $n$ coins show more heads | $B > A_{1 \ldots n}$ |
-| They tie | $A_{1 \ldots n} = B$ |
+| A's first $n$ coins show more heads | $A_n > B$ |
+| B's $n$ coins show more heads | $B > A_n$ |
+| They tie | $A_n = B$ |
 
 By **symmetry** (identical coin counts, all fair):
 
-$$P(A_{1 \ldots n} > B) = P(B > A_{1 \ldots n})$$
+$$P(A_n > B) = P(B > A_n)$$
 
 Let:
 
-$$p = P(A_{1 \ldots n} > B), \quad t = P(A_{1 \ldots n} = B)$$
+$$p = P(A_n > B), \quad t = P(A_n = B)$$
 
-so $2p + t = 1$, i.e. $t = 1 - 2p$.
+so $2p + t = 1$ , i.e. $t = 1 - 2p$ .
 
 **Step 3: When does the extra coin matter?**
 
 | Scenario | Extra coin needed? | A wins? |
 |---|---|---|
-| $A_{1 \ldots n} > B$ | No | ✅ Always (extra coin is just gravy) |
-| $B > A_{1 \ldots n}$ | Extra coin can gain at most 1 head. But B is ahead by ≥ 1, so at best we tie — **not** strictly more | ❌ Never |
-| $A_{1 \ldots n} = B$ | A wins **iff** $A_{extra} = H$ | ✅ With probability $\frac{1}{2}$ |
+| $A_n > B$ | No | ✅ Always (extra coin is just gravy) |
+| $B > A_n$ | Extra coin can gain at most 1 head. But B is ahead by ≥ 1, so at best we tie — **not** strictly more | ❌ Never |
+| $A_n = B$ | A wins **iff** $A_e = H$ | ✅ With probability $\frac{1}{2}$ |
 
 **Step 4: Combine.**
 
 $$P(A > B) = p + \frac{1}{2} \cdot t = p + \frac{1}{2}(1 - 2p) = p + \frac{1}{2} - p = \boxed{\frac{1}{2}}$$
 
-> **Elegant conclusion:** No matter how large $n$ is, the probability that A gets strictly more heads is always exactly $\frac{1}{2}$.
+> **Elegant conclusion:** No matter how large $n$ is, the probability that A gets strictly more heads is always exactly $\frac{1}{2}$ .
 
 ### Intuition Check
 
@@ -69,101 +69,101 @@ This makes intuitive sense: A's extra coin is either heads or tails with equal p
 
 #### Solution
 
-Split A's coins into two groups: the first $n$ coins $(A_{1 \ldots n})$ and the remaining $k$ extra coins.
+Split A's coins into two groups: the first $n$ coins and the remaining $k$ extra coins.
 
-Let $X$ = heads from $A_{1 \ldots n}$ and $Y$ = heads from $B_{1 \ldots n}$. By symmetry, $X$ and $Y$ are identically distributed (both Binomial$(n, 0.5)$).
+Let $X$ = heads from A's first $n$ coins and $Y$ = heads from B's $n$ coins. By symmetry, $X$ and $Y$ are identically distributed — both follow a Binomial $(n, 0.5)$ distribution.
 
-Let $Z$ = heads from A's extra $k$ coins, so $Z \sim$ Binomial$(k, 0.5)$.
+Let $Z$ = heads from A's extra $k$ coins, so $Z$ follows a Binomial $(k, 0.5)$ distribution.
 
-**A wins iff $X + Z > Y$, i.e. $Z > Y - X$.**
+**A wins iff** $X + Z > Y$ , **i.e.** $Z > Y - X$ .
 
-Let $D = X - Y$. By symmetry, $D$ is symmetric about 0, meaning $P(D = d) = P(D = -d)$ for all $d$.
+Let $D = X - Y$ . By symmetry, $D$ is symmetric about 0, meaning $P(D = d) = P(D = -d)$ for all $d$ .
 
 $$P(A > B) = P(Z + D > 0) = \sum_{d} P(D = d) \cdot P(Z > -d)$$
 
-For a closed-form result, note that the total heads for A follow Binomial$(n+k, 0.5)$ and for B follow Binomial$(n, 0.5)$.
+For a closed-form result, note that the total heads for A follow a Binomial $(n+k, 0.5)$ distribution and for B follow a Binomial $(n, 0.5)$ distribution.
 
 **Special cases:**
-- $k = 0$: $P(A > B) < \frac{1}{2}$ (by symmetry, less than half since ties are possible)
-- $k = 1$: $P(A > B) = \frac{1}{2}$ (the original problem)
-- $k \to \infty$: $P(A > B) \to 1$ (A overwhelms B)
+- $k = 0$ : $P(A > B) < \frac{1}{2}$ (by symmetry, less than half since ties are possible)
+- $k = 1$ : $P(A > B) = \frac{1}{2}$ (the original problem)
+- $k \to \infty$ : $P(A > B) \to 1$ (A overwhelms B)
 
 **General formula:**
 
 $$P(A > B) = \sum_{j=0}^{n} \sum_{i=j+1}^{n+k} \binom{n+k}{i}\binom{n}{j} \left(\frac{1}{2}\right)^{2n+k}$$
 
-This doesn't simplify to a clean closed form for arbitrary $k$, but can be computed efficiently. An equivalent formulation uses the CDF of the difference of two binomials.
+This doesn't simplify to a clean closed form for arbitrary $k$ , but can be computed efficiently. An equivalent formulation uses the CDF of the difference of two binomials.
 
 ---
 
 ### Follow-Up 2: Biased Coins
 
-> Suppose both players use biased coins with $P(H) = p \neq 0.5$. Does the probability that A wins remain $\frac{1}{2}$?
+> Suppose both players use biased coins with $P(H) = p \neq 0.5$ . Does the probability that A wins remain $\frac{1}{2}$ ?
 
 #### Solution
 
-**Yes — the result remains exactly $\frac{1}{2}$, regardless of the bias $p$!**
+**Yes — the result remains exactly** $\frac{1}{2}$ , **regardless of the bias** $p$ **!**
 
 The proof follows identically:
 
 **Step 1:** Compare A's first $n$ coins to B's $n$ coins. Both use the same biased coins, so:
 
-$$P(A_{1 \ldots n} > B) = P(B > A_{1 \ldots n})$$
+$$P(A_n > B) = P(B > A_n)$$
 
-This symmetry holds for **any** $p \in (0, 1)$, since both sets of $n$ coins are i.i.d. Bernoulli$(p)$.
+This symmetry holds for **any** $p \in (0, 1)$ , since both sets of $n$ coins are i.i.d. Bernoulli( $p$ ).
 
-**Step 2:** Let $p_w = P(A_{1 \ldots n} > B)$ and $t = P(\text{tie})$.
+**Step 2:** Let $p_w = P(A_n > B)$ and $t$ = probability of a tie.
 
-The extra coin is heads with probability $p$, tails with probability $1 - p$.
+The extra coin is heads with probability $p$ , tails with probability $1 - p$ .
 
-When $B > A_{1 \ldots n}$: B leads by at least 1. The extra coin can gain at most 1 head.
+When $B > A_n$ : B leads by at least 1. The extra coin can gain at most 1 head.
 - If B leads by exactly 1 and the extra coin is H → **tie** (not a strict win for A)
 - If B leads by ≥ 2 → A still loses
 
 **Wait** — this is where the biased case differs subtly. Let's be more careful.
 
-Let $D = A_{1 \ldots n} - B$ be the head-count difference. By symmetry of using the same coins:
+Let $D = A_n - B$ be the head-count difference. By symmetry of using the same coins:
 
 $$P(D = d) = P(D = -d) \quad \text{for all } d$$
 
-A wins iff $D + A_{\text{extra}} > 0$ where $A_{\text{extra}} \sim$ Bernoulli$(p)$.
+A wins iff $D + A_e > 0$ where $A_e$ is Bernoulli( $p$ ).
 
 $$P(A > B) = P(D > 0) + p \cdot P(D = 0) + p \cdot P(D = -1) \cdot 0$$
 
-Wait, let me redo this properly. A's total heads = ($A_{1 \ldots n}$ heads) + $A_{\text{extra}}$.
+Wait, let me redo this properly. A's total heads = (first $n$ coin heads) + $A_e$ .
 B's total heads = $B$ heads.
 
-A wins iff $D + A_{extra} > 0$ where $D = A_{1 \ldots n} - B$.
+A wins iff $D + A_e > 0$ where $D = A_n - B$ .
 
-- If $D \geq 1$: A wins regardless → probability $p_w$
-- If $D = 0$: A wins iff $A_{extra} = 1$ → contributes $t \cdot p$
-- If $D = -1$: A wins iff $A_{extra} = 1$, giving $D + 1 = 0$ → **tie, not win**
-- If $D \leq -1$: A cannot win (extra coin adds at most 1)
+- If $D \geq 1$ : A wins regardless → probability $p_w$
+- If $D = 0$ : A wins iff $A_e = 1$ → contributes $t \cdot p$
+- If $D = -1$ : A wins iff $A_e = 1$ , giving $D + 1 = 0$ → **tie, not win**
+- If $D \leq -1$ : A cannot win (extra coin adds at most 1)
 
 So:
 
-$$P(A > B) = p_{\text{win}} + p \cdot t$$
+$$P(A > B) = p_w + p \cdot t$$
 
 Now, $p_w + p_l + t = 1$ and $p_w = p_l$ by symmetry.
 
-So $t = 1 - 2p_w$.
+So $t = 1 - 2p_w$ .
 
-$$P(A > B) = p_{\text{win}} + p(1 - 2p_{\text{win}}) = p_{\text{win}}(1 - 2p) + p$$
+$$P(A > B) = p_w + p(1 - 2p_w) = p_w(1 - 2p) + p$$
 
-**This equals $\frac{1}{2}$ only when $p = \frac{1}{2}$!**
+**This equals** $\frac{1}{2}$ **only when** $p = \frac{1}{2}$ **!**
 
-For biased coins ($p \neq 0.5$):
+For biased coins ( $p \neq 0.5$ ):
 
-$$\boxed{P(A > B) = p_{\text{win}}(1 - 2p) + p}$$
+$$\boxed{P(A > B) = p_w(1 - 2p) + p}$$
 
-where $p_w = P(A_{1 \ldots n} > B)$ depends on $n$ and $p$.
+where $p_w = P(A_n > B)$ depends on $n$ and $p$ .
 
-**Example:** For $n = 1$, $p = 0.7$:
+**Example:** For $n = 1$ , $p = 0.7$ :
 - $p_w = P(A_1 = H, B = T) = 0.7 \times 0.3 = 0.21$
 - $t = p^2 + (1-p)^2 = 0.49 + 0.09 = 0.58$
 - $P(A > B) = 0.21 + 0.7 \times 0.58 = 0.21 + 0.406 = 0.616 \neq 0.5$
 
-**So no, the answer does NOT remain $\frac{1}{2}$ for biased coins.** The key is that the extra coin's head probability $p$ no longer matches the "half" needed to perfectly balance the symmetry.
+**So no, the answer does NOT remain** $\frac{1}{2}$ **for biased coins.** The key is that the extra coin's head probability $p$ no longer matches the "half" needed to perfectly balance the symmetry.
 
 ---
 
@@ -173,7 +173,7 @@ where $p_w = P(A_{1 \ldots n} > B)$ depends on $n$ and $p$.
 
 #### Solution
 
-Let $H_A \sim$ Binomial$(n+1, \frac{1}{2})$ and $H_B \sim$ Binomial$(n, \frac{1}{2})$.
+Let $H_A$ follow a Binomial $(n+1, \frac{1}{2})$ distribution and $H_B$ follow a Binomial $(n, \frac{1}{2})$ distribution.
 
 By linearity of expectation:
 
@@ -183,7 +183,7 @@ $$E[H_A - H_B] = E[H_A] - E[H_B] = \frac{n+1}{2} - \frac{n}{2} = \boxed{\frac{1}
 
 $$\text{Var}(H_A - H_B) = \text{Var}(H_A) + \text{Var}(H_B) = \frac{n+1}{4} + \frac{n}{4} = \frac{2n+1}{4}$$
 
-So the standard deviation is $\frac{\sqrt{2n+1}}{2}$, which grows with $n$.
+So the standard deviation is $\frac{\sqrt{2n+1}}{2}$ , which grows with $n$ .
 
 **Key insight:** While A wins exactly half the time, the *expected* advantage is always $\frac{1}{2}$ — exactly one extra coin's expected heads contribution. This is a beautiful application of linearity of expectation: the expected difference doesn't depend on the game's complex win/loss structure.
 
@@ -195,11 +195,11 @@ So the standard deviation is $\frac{\sqrt{2n+1}}{2}$, which grows with $n$.
 
 #### Solution
 
-We want $E[H_A \mid H_A > H_B]$.
+We want $E[H_A \mid H_A > H_B]$ .
 
 **Using symmetry and decomposition:**
 
-Since $P(H_A > H_B) = \frac{1}{2}$, we can write:
+Since $P(H_A > H_B) = \frac{1}{2}$ , we can write:
 
 $$E[H_A] = E[H_A \mid H_A > H_B] \cdot P(H_A > H_B) + E[H_A \mid H_A \leq H_B] \cdot P(H_A \leq H_B)$$
 
@@ -213,9 +213,9 @@ $$E[H_A \mid H_A > H_B] = \frac{\sum_{i>j} i \cdot P(H_A = i) \cdot P(H_B = j)}{
 
 $$= 2 \sum_{i=1}^{n+1} \sum_{j=0}^{i-1} i \binom{n+1}{i} \binom{n}{j} \left(\frac{1}{2}\right)^{2n+1}$$
 
-**For small $n$, we can compute directly:**
+**For small** $n$ **, we can compute directly:**
 
-*$n = 1$:* A has 2 coins, B has 1 coin.
+When $n = 1$ : A has 2 coins, B has 1 coin.
 
 | $H_A$ | $H_B$ | $P$ | A wins? |
 |---|---|---|---|
@@ -226,13 +226,13 @@ $$= 2 \sum_{i=1}^{n+1} \sum_{j=0}^{i-1} i \binom{n+1}{i} \binom{n}{j} \left(\fra
 | 2 | 0 | $\frac{1}{8}$ | Yes |
 | 2 | 1 | $\frac{1}{8}$ | Yes |
 
-$P(A \textrm{ wins}) = \frac{2 + 1 + 1}{8} = \frac{4}{8} = \frac{1}{2}$ ✓
+$P(\text{A wins}) = \frac{2 + 1 + 1}{8} = \frac{4}{8} = \frac{1}{2}$ ✓
 
-$$E[H_A \mid A \text{ wins}] = \frac{1 \cdot \frac{2}{8} + 2 \cdot \frac{1}{8} + 2 \cdot \frac{1}{8}}{\frac{1}{2}} = \frac{\frac{6}{8}}{\frac{1}{2}} = \frac{3}{2}$$
+$$E[H_A \mid \text{A wins}] = \frac{1 \cdot \frac{2}{8} + 2 \cdot \frac{1}{8} + 2 \cdot \frac{1}{8}}{\frac{1}{2}} = \frac{\frac{6}{8}}{\frac{1}{2}} = \frac{3}{2}$$
 
-Compare to $E[H_A] = 1$. So conditioning on winning increases the expected heads from 1 to $\frac{3}{2}$.
+Compare to $E[H_A] = 1$ . So conditioning on winning increases the expected heads from 1 to $\frac{3}{2}$ .
 
-**General pattern:** $E[H_A \mid A \textrm{ wins}] = \frac{n+1}{2} + \delta(n)$ where $\delta(n) > 0$ represents the boost from conditioning on winning.
+**General pattern:** $E[H_A \mid \text{A wins}] = \frac{n+1}{2} + \delta(n)$ where $\delta(n) > 0$ represents the boost from conditioning on winning.
 
 ---
 
@@ -244,9 +244,9 @@ Compare to $E[H_A] = 1$. So conditioning on winning increases the expected heads
 
 **Each round:** A flips $(n+1)$ coins, B flips $n$ coins → total of $(2n + 1)$ flips per round.
 
-**Probability A wins (terminates) in each round:** $P(A > B) = \frac{1}{2}$.
+**Probability A wins (terminates) in each round:** $P(A > B) = \frac{1}{2}$ .
 
-**The number of rounds $R$ is geometric** with success probability $\frac{1}{2}$:
+**The number of rounds** $R$ **is geometric** with success probability $\frac{1}{2}$ :
 
 $$P(R = k) = \left(\frac{1}{2}\right)^{k-1} \cdot \frac{1}{2} = \left(\frac{1}{2}\right)^k, \quad k = 1, 2, 3, \ldots$$
 
