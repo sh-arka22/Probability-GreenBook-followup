@@ -30,7 +30,7 @@ The chain **always terminates** when either seat #1 or seat #100 is chosen. Thes
 
 At every random-choice event, both seat #1 and seat #100 are in the pool of empty seats. A displaced passenger is equally likely to pick either one. Therefore:
 
-$$P(\text{seat \#1 chosen first}) = P(\text{seat \#100 chosen first}) = \boxed{\frac{1}{2}}$$
+$$P(\text{seat 1 first}) = P(\text{seat 100 first}) = \boxed{\frac{1}{2}}$$
 
 > **The answer is** $\frac{1}{2}$ **, regardless of** $n$ . Works for 3 passengers or a million.
 
